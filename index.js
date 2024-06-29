@@ -1,8 +1,12 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
+const cors = require('cors')
 
-
+app.use(express.static('dist'))
 app.use(express.json())
+app.use(morgan(':method :url :status :response-time[4] :body'))
+app.use(cors())
 
 let persons = [
     { 
@@ -26,6 +30,10 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+morgan.token('body', req => {
+    return JSON.stringify(req.body)
+  })
+  
 
 app.get('/', (request, response) => {
   response.send('<h1>Fucking Hello World!</h1>')
